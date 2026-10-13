@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="fr" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlexWay - Votre Mobilité & Confort en Gare</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#fff2ef',
+                            100: '#ffe2dc',
+                            500: '#FF5A36',
+                            600: '#e54522',
+                            700: '#bd3718',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+        .sun-gradient {
+            background: linear-gradient(135deg, #FF5A36 0%, #FF9A36 100%);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300">
+
+    <header class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo & Brand -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+                <div class="w-12 h-12 rounded-2xl sun-gradient flex items-center justify-center text-white font-extrabold text-2xl shadow-lg shadow-brand-500/30">
+                    F
+                </div>
+                <div>
+                    <span class="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-brand-500 to-amber-500 bg-clip-text text-transparent">FlexWay</span>
+                    <span class="block text-xs font-medium text-slate-400">Mobilité & Confort en Gare</span>
+                </div>
+            </div>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden lg:flex items-center space-x-1">
+                <button onclick="switchTab('home')" class="nav-btn px-4 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-500 transition-all active-tab" data-target="home">
+                    <i class="fa-solid fa-house mr-2"></i>Accueil
+                </button>
+                <button onclick="switchTab('transport')" class="nav-btn px-4 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-500 transition-all" data-target="transport">
+                    <i class="fa-solid fa-car mr-2"></i>Vers la Gare
+                </button>
+                <button onclick="switchTab('train')" class="nav-btn px-4 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-500 transition-all" data-target="train">
+                    <i class="fa-solid fa-train mr-2"></i>Billets Train
+                </button>
+                <button onclick="switchTab('pmr')" class="nav-btn px-4 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-500 transition-all" data-target="pmr">
+                    <i class="fa-solid fa-hands-holding-child mr-2"></i>Accompagnement
+                </button>
+                <button onclick="switchTab('workspace')" class="nav-btn px-4 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-500 transition-all" data-target="workspace">
+                    <i class="fa-solid fa-laptop mr-2"></i>Espace Travail
+                </button>
+                <button onclick="switchTab('capsule')" class="nav-btn px-4 py-2 rounded-xl text-sm font-medium bg-brand-50 text-brand-600 dark:bg-brand-900/40 dark:text-brand-400 border border-brand-200 dark:border-brand-800 transition-all animate-pulse" data-target="capsule">
+                    <i class="fa-solid fa-sun mr-2"></i>Capsules de Soleil
+                </button>
+            </nav>
+
+            <!-- User profile & Theme toggle -->
+            <div class="flex items-center space-x-3">
+                <button onclick="toggleDarkMode()" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition-all">
+                    <i id="themeIcon" class="fa-solid fa-moon"></i>
+                </button>
+                <div class="hidden sm:flex items-center space-x-3 border-l pl-3 border-slate-200 dark:border-slate-700">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=120" alt="Avatar" class="w-10 h-10 rounded-xl object-cover ring-2 ring-brand-500/30">
+                    <div class="text-left">
+                        <p class="text-sm font-bold leading-tight">Claire Martin</p>
+                        <p class="text-xs text-brand-500 font-semibold">Membre FlexPass</p>
+                    </div>
+                </div>
+                <!-- Mobile menu button -->
+                <button onclick="toggleMobileMenu()" class="lg:hidden p-2 text-slate-600 dark:text-slate-300">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile dropdown menu -->
+        <div id="mobileMenu" class="hidden lg:hidden bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 px-4 pt-2 pb-4 space-y-2">
+            <button onclick="switchTab('home'); toggleMobileMenu();" class="block w-full text-left px-4 py-2 rounded-xl font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">Accueil</button>
+            <button onclick="switchTab('transport'); toggleMobileMenu();" class="block w-full text-left px-4 py-2 rounded-xl font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">Vers la Gare</button>
+            <button onclick="switchTab('train'); toggleMobileMenu();" class="block w-full text-left px-4 py-2 rounded-xl font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">Billets Train</button>
+            <button onclick="switchTab('pmr'); toggleMobileMenu();" class="block w-full text-left px-4 py-2 rounded-xl font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">Accompagnement PMR/Seniors</button>
+            <button onclick="switchTab('workspace'); toggleMobileMenu();" class="block w-full text-left px-4 py-2 rounded-xl font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">Espace Travail</button>
+            <button onclick="switchTab('capsule'); toggleMobileMenu();" class="block w-full text-left px-4 py-2 rounded-xl font-medium text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-900/30">Capsules de Soleil (Urgence)</button>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- TAB 1: HOME / DASHBOARD -->
+        <div id="tab-home" class="tab-content space-y-8">
+            <!-- Hero Banner -->
+            <div class="sun-gradient rounded-3xl p-8 sm:p-12 text-white relative overflow-hidden shadow-xl shadow-brand-500/20">
+                <div class="relative z-10 max-w-2xl space-y-4">
+                    <span class="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-semibold uppercase tracking-wider">Nouvelle Génération de Mobilité</span>
+                    <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight">Voyagez l'esprit léger, de votre porte jusqu'à votre siège.</h1>
+                    <p class="text-white/90 text-sm sm:text-base">Combinez transport multimodal vers la gare, réservation de train, assistance dédiée, espace de travail connecté et capsules de luminothérapie en cas d'imprévu.</p>
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        <button onclick="switchTab('transport')" class="px-6 py-3 bg-white text-brand-600 font-bold rounded-2xl shadow-lg hover:bg-slate-100 transition-all flex items-center space-x-2">
+                            <span>Calculer mon trajet gare</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <button onclick="switchTab('capsule')" class="px-6 py-3 bg-black/30 backdrop-blur-md text-white font-bold rounded-2xl border border-white/30 hover:bg-black/40 transition-all flex items-center space-x-2">
+                            <i class="fa-solid fa-sun text-amber-300"></i>
+                            <span>Capsule de Soleil (Urgence)</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="absolute right-[-10%] bottom-[-20%] w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+            </div>
+
+            <!-- Quick Service Grid -->
+            <div>
+                <h2 class="text-xl font-bold mb-4">Nos Services Intégrés</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Service Card 1 -->
+                    <div onclick="switchTab('transport')" class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:border-brand-500 transition-all cursor-pointer group">
+                        <div class="w-12 h-12 rounded-2xl bg-brand-50 dark:bg-brand-900/40 text-brand-500 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-route"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-1">Transport vers la Gare</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Comparez VTC, métro, bus, vélo et marche avec estimation temps, prix et carbone.</p>
+                    </div>
+
+                    <!-- Service Card 2 -->
+                    <div onclick="switchTab('train')" class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:border-brand-500 transition-all cursor-pointer group">
+                        <div class="w-12 h-12 rounded-2xl bg-brand-50 dark:bg-brand-900/40 text-brand-500 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-ticket"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-1">Réservation de Billets</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Réservez vos trains nationaux et régionaux au meilleur tarif garanti.</p>
+                    </div>
+
+                    <!-- Service Card 3 -->
+                    <div onclick="switchTab('pmr')" class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:border-brand-500 transition-all cursor-pointer group">
+                        <div class="w-12 h-12 rounded-2xl bg-brand-50 dark:bg-brand-900/40 text-brand-500 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-hands-holding-child"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-1">Accompagnement PMR & Seniors</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Agent dédié depuis votre arrivée en gare jusqu'à votre installation à bord.</p>
+                    </div>
+
+                    <!-- Service Card 4 -->
+                    <div onclick="switchTab('workspace')" class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:border-brand-500 transition-all cursor-pointer group">
+                        <div class="w-12 h-12 rounded-2xl bg-brand-50 dark:bg-brand-900/40 text-brand-500 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-laptop-code"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-1">Espace de Travail à Bord</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Wagon calme, table collaborative ou cabine isolée connectée Wi-Fi 6G.</p>
+                    </div>
+
+                    <!-- Service Card 5 -->
+                    <div onclick="switchTab('capsule')" class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:border-brand-500 transition-all cursor-pointer group relative overflow-hidden">
+                        <div class="absolute top-0 right-0 bg-amber-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-xl uppercase">Urgence</div>
+                        <div class="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-900/40 text-amber-600 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-sun"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-1">Capsules de Soleil</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Capsule de repos privative avec luminothérapie en cas d'annulation > 2h.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Trip Widget -->
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-bold text-lg">Mon Prochain Trajet</h3>
+                    <span class="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 text-xs font-bold rounded-full">Confirmé</span>
+                </div>
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-900">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-xl bg-brand-500 text-white flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-train"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-base">Paris Gare de Lyon ➔ Lyon Part-Dieu</p>
+                            <p class="text-xs text-slate-500">Aujourd'hui à 14:32 - TGV Inoui 6142 (Voie 3)</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="switchTab('workspace')" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-xs font-bold rounded-xl transition-all">Gérer Espace</button>
+                        <button onclick="switchTab('pmr')" class="px-4 py-2 bg-brand-500 text-white hover:bg-brand-600 text-xs font-bold rounded-xl transition-all">Service PMR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: TRANSPORT VERS LA GARE -->
+        <div id="tab-transport" class="tab-content hidden space-y-6">
+            <div class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                <h2 class="text-2xl font-bold mb-2">Calculateur Multimodal vers la Gare</h2>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Trouvez le meilleur moyen de transport depuis votre domicile jusqu'à votre quai de départ.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 mb-2 uppercase">Adresse de départ (Domicile)</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-location-dot absolute left-4 top-1/2 -translate-y-1/2 text-brand-500"></i>
+                            <input type="text" id="depAddress" value="14 Rue de la République, Paris" class="w-full pl-11 pr-4 py-3 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl outline-none focus:border-brand-500 text-sm font-medium">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 mb-2 uppercase">Gare d'arrivée</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-train absolute left-4 top-1/2 -translate-y-1/2 text-brand-500"></i>
+                            <select id="stationSelect" class="w-full pl-11 pr-4 py-3 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl outline-none focus:border-brand-500 text-sm font-medium">
+                                <option>Paris Gare de Lyon</option>
+                                <option>Paris Gare du Nord</option>
+                                <option>Lyon Part-Dieu</option>
+                                <option>Marseille Saint-Charles</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="calculateTransport()" class="w-full py-4 sun-gradient text-white font-bold rounded-2xl shadow-lg shadow-brand-500/30 hover:opacity-95 transition-all flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <span>Calculer et comparer les options</span>
+                </button>
+            </div>
+
+            <!-- Transport Results Container -->
+            <div id="transportResults" class="space-y-4 hidden">
+                <h3 class="text-lg font-bold">Options Recommandées pour vous</h3>
+                
+                <!-- Option 1: VTC -->
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl font-bold">
+                            <i class="fa-solid fa-car"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <h4 class="font-bold text-base">VTC (Partenaire FlexCab)</h4>
+                                <span class="px-2 py-0.5 bg-amber-100 text-amber-700 text-[10px] font-bold rounded-full">Le plus rapide</span>
+                            </div>
+                            <p class="text-xs text-slate-500">Prise en charge immédiate devant chez vous • Chauffeur prioritaire gare</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-6 w-full sm:w-auto justify-between sm:justify-end">
+                        <div class="text-right">
+                            <p class="text-lg font-extrabold text-brand-500">18.50 €</p>
+                            <p class="text-xs text-slate-500">22 min • 140g CO2</p>
+                        </div>
+                        <button onclick="bookTransport('VTC', '18.50 €')" class="px-5 py-2.5 bg-slate-900 dark:bg-slate-700 text-white font-bold rounded-xl text-sm hover:bg-brand-500 transition-all">Réserver</button>
+                    </div>
+                </div>
+
+                <!-- Option 2: Metro / Bus -->
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl font-bold">
+                            <i class="fa-solid fa-subway"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <h4 class="font-bold text-base">Métro Ligne 1 + RER A</h4>
+                                <span class="px-2 py-0.5 bg-emerald-100 text-emerald-700 text-[10px] font-bold rounded-full">Éco-responsable</span>
+                            </div>
+                            <p class="text-xs text-slate-500">Correspondance à Châtelet • Fréquence toutes les 3 min</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-6 w-full sm:w-auto justify-between sm:justify-end">
+                        <div class="text-right">
+                            <p class="text-lg font-extrabold text-emerald-600">2.15 €</p>
+                            <p class="text-xs text-slate-500">28 min • 12g CO2</p>
+                        </div>
+                        <button onclick="bookTransport('Métro + RER', '2.15 €')" class="px-5 py-2.5 bg-slate-900 dark:bg-slate-700 text-white font-bold rounded-xl text-sm hover:bg-brand-500 transition-all">Sélectionner</button>
+                    </div>
+                </div>
+
+                <!-- Option 3: Vélo partagé -->
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl font-bold">
+                            <i class="fa-solid fa-bicycle"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <h4 class="font-bold text-base">Vélo Électrique Partagé</h4>
+                                <span class="px-2 py-0.5 bg-emerald-100 text-emerald-700 text-[10px] font-bold rounded-full">Zéro émission</span>
+                            </div>
+                            <p class="text-xs text-slate-500">Station Vélib' à 50m • Piste cyclable sécurisée</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-6 w-full sm:w-auto justify-between sm:justify-end">
+                        <div class="text-right">
+                            <p class="text-lg font-extrabold text-emerald-600">1.80 €</p>
+                            <p class="text-xs text-slate-500">19 min • 0g CO2</p>
+                        </div>
+                        <button onclick="bookTransport('Vélo Électrique', '1.80 €')" class="px-5 py-2.5 bg-slate-900 dark:bg-slate-700 text-white font-bold rounded-xl text-sm hover:bg-brand-500 transition-all">Déverrouiller</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: BILLETS DE TRAIN -->
+        <div id="tab-train" class="tab-content hidden space-y-6">
+            <div class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                <h2 class="text-2xl font-bold mb-2">Réservation de Billets de Train</h2>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Recherchez et réservez vos voyages ferroviaires en toute simplicité.</p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 mb-2 uppercase">Origine</label>
+                        <input type="text" id="trainFrom" value="Paris (Toutes gares)" class="w-full px-4 py-3 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl outline-none text-sm font-medium">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 mb-2 uppercase">Destination</label>
+                        <input type="text" id="trainTo" value="Lyon Part-Dieu" class="w-full px-4 py-3 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl outline-none text-sm font-medium">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 mb-2 uppercase">Date de départ</label>
+                        <input type="date" id="trainDate" value="2026-10-15" class="w-full px-4 py-3 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl outline-none text-sm font-medium">
+                    </div>
+                </div>
+                <button onclick="searchTrains()" class="w-full py-4 sun-gradient text-white font-bold rounded-2xl shadow-lg shadow-brand-500/30 hover:opacity-95 transition-all">Rechercher les trains</button>
+            </div>
+
+            <!-- Train Results -->
+            <div id="trainResults" class="space-y-4 hidden">
+                <h3 class="text-lg font-bold">Trajets Disponibles</h3>
+                
+                <!-- Train 1 -->
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="flex items-center space-x-6">
+                        <div class="w-14 h-14 rounded-2xl bg-brand-50 dark:bg-brand-900/40 text-brand-500 flex items-center justify-center text-2xl font-extrabold">
+                            <i class="fa-solid fa-train"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center space-x-3 mb-1">
+                                <span class="font-extrabold text-lg">06:47 ➔ 08:52</span>
+                                <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full">Direct • 2h05</span>
+                            </div>
+                            <p class="text-xs text-slate-500">TGV Inoui 6601 • 2nde Classe • Wi-Fi & Bar inclus</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-6 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 pt-4 md:pt-0 border-slate-200 dark:border-slate-700">
+                        <div class="text-right">
+                            <p class="text-2xl font-extrabold text-brand-500">49.00 €</p>
+                            <p class="text-[10px] text-slate-400">Dernières places</p>
+                        </div>
+                        <button onclick="bookTrain('TGV 6601', '06:47', '49.00 €')" class="px-6 py-3 bg-brand-500 text-white font-bold rounded-xl text-sm hover:bg-brand-600 shadow-lg shadow-brand-500/30 transition-all">Réserver</button>
+                    </div>
+                </div>
+
+                <!-- Train 2 -->
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="flex items-center space-x-6">
+                        <div class="w-14 h-14 rounded-2xl bg-brand-50 dark:bg-brand-900/40 text-brand-500 flex items-center justify-center text-2xl font-extrabold">
+                            <i class="fa-solid fa-train"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center space-x-3 mb-1">
+                                <span class="font-extrabold text-lg">09:12 ➔ 11:18</span>
+                                <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full">Direct • 2h06</span>
+                            </div>
+                            <p class="text-xs text-slate-500">TGV Inoui 6605 • 1ère Classe • Espace silence disponible</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-6 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 pt-4 md:pt-0 border-slate-200 dark:border-slate-700">
+                        <div class="text-right">
+                            <p class="text-2xl font-extrabold text-brand-500">75.00 €</p>
+                            <p class="text-[10px] text-slate-400">Flexi-échangeable</p>
+                        </div>
+                        <button onclick="bookTrain('TGV 6605', '09:12', '75.00 €')" class="px-6 py-3 bg-brand-500 text-white font-bold rounded-xl text-sm hover:bg-brand-600 shadow-lg shadow-brand-500/30 transition-all">Réserver</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: ACCOMPAGNEMENT PMR / SENIORS -->
+        <div id="tab-pmr" class="tab-content hidden space-y-6">
+            <div class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                <div class="max-w-3xl">
+                    <span class="px-3 py-1 bg-brand-50 text-brand-600 dark:bg-brand-900/40 dark:text-brand-400 rounded-full text-xs font-semibold uppercase tracking-wider">Service Dédié Gratuit / Inclus</span>
+                    <h2 class="text-3xl font-extrabold mt-3 mb-3">Service d'Accompagnement PMR & Seniors</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-base mb-6">Bénéficiez d'un agent personnel FlexWay qui vous accueille dès votre descente du VTC ou taxi en gare, vous aide avec vos bagages, guide vos pas dans le hall et vous installe confortablement à votre place à bord du train.</p>
+
+                    <div class="space-y-4 mb-6">
+                        <label class="block text-sm font-bold">Sélectionnez le type d'accompagnement souhaité :</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <label class="flex items-start space-x-3 p-4 rounded-2xl border-2 border-brand-500 bg-brand-50/50 dark:bg-brand-900/20 cursor-pointer">
+                                <input type="radio" name="pmrType" checked class="mt-1">
+                                <div>
+                                    <span class="font-bold block text-sm">Assistance Senior & Bagages</span>
+                                    <span class="text-xs text-slate-500">Aide au portage et cheminement guidé.</span>
+                                </div>
+                            </label>
+                            <label class="flex items-start space-x-3 p-4 rounded-2xl border-2 border-slate-200 dark:border-slate-700 cursor-pointer hover:border-brand-500">
+                                <input type="radio" name="pmrType" class="mt-1">
+                                <div>
+                                    <span class="font-bold block text-sm">Fauteuil Roulant & Rampe</span>
+                                    <span class="text-xs text-slate-500">Prise en charge PMR avec équipement adapté.</span>
+                                </div>
+                            </label>
+                            <label class="flex items-start space-x-3 p-4 rounded-2xl border-2 border-slate-200 dark:border-slate-700 cursor-pointer hover:border-brand-500">
+                                <input type="radio" name="pmrType" class="mt-1">
+                                <div>
+                                    <span class="font-bold block text-sm">Accompagnement Malvoyant</span>
+                                    <span class="text-xs text-slate-500">Guide tactile et vocal en gare et quai.</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-2 uppercase">Nom et Prénom du Voyageur</label>
+                            <input type="text" value="Madame Simone Martin" class="w-full px-4 py-3 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl outline-none text-sm font-medium">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-2 uppercase">Numéro de téléphone de contact</label>
+                            <input type="text" value="+33 6 12 34 56 78" class="w-full px-4 py-3 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl outline-none text-sm font-medium">
+                        </div>
+                    </div>
+
+                    <button onclick="bookPMR()" class="px-8 py-4 sun-gradient text-white font-bold rounded-2xl shadow-lg shadow-brand-500/30 hover:opacity-95 transition-all">Réserver mon agent d'accompagnement</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: ESPACE DE TRAVAIL DANS LE TRAIN -->
+        <div id="tab-workspace" class="tab-content hidden space-y-6">
+            <div class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                <h2 class="text-2xl font-bold mb-2">Réservation d'Espace de Travail à Bord</h2>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Optimisez votre temps de trajet en réservant un espace propice à la concentration ou à la collaboration.</p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+                    <!-- Choice 1 -->
+                    <div class="p-6 rounded-3xl border-2 border-brand-500 bg-brand-50/50 dark:bg-brand-900/20 cursor-pointer relative">
+                        <span class="absolute top-4 right-4 w-6 h-6 rounded-full bg-brand-500 text-white flex items-center justify-center text-xs"><i class="fa-solid fa-check"></i></span>
+                        <div class="w-12 h-12 rounded-2xl bg-brand-500 text-white flex items-center justify-center text-xl font-bold mb-4">
+                            <i class="fa-solid fa-volume-xmark"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-1">Wagon Calme</h3>
+                        <p class="text-xs text-slate-500 mb-4">Ambiance studieuse stricte, interdiction de téléphoner, idéal pour rédiger et se reposer.</p>
+                        <span class="text-sm font-extrabold text-brand-500">+ 5.00 €</span>
+                    </div>
+
+                    <!-- Choice 2 -->
+                    <div class="p-6 rounded-3xl border-2 border-slate-200 dark:border-slate-700 hover:border-brand-500 cursor-pointer relative">
+                        <div class="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center text-xl font-bold mb-4">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-1">Table Collaborative</h3>
+                        <p class="text-xs text-slate-500 mb-4">Espace 4 places avec table centrale, prises multiples et écran partagé.</p>
+                        <span class="text-sm font-extrabold text-brand-500">+ 8.00 €</span>
+                    </div>
+
+                    <!-- Choice 3 -->
+                    <div class="p-6 rounded-3xl border-2 border-slate-200 dark:border-slate-700 hover:border-brand-500 cursor-pointer relative">
+                        <div class="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center text-xl font-bold mb-4">
+                            <i class="fa-solid fa-lock"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-1">Cabine Isolée Connectée</h3>
+                        <p class="text-xs text-slate-500 mb-4">Mini-box privative insonorisée avec Wi-Fi 6G dédié et visioconférence.</p>
+                        <span class="text-sm font-extrabold text-brand-500">+ 19.00 €</span>
+                    </div>
+                </div>
+
+                <button onclick="bookWorkspace()" class="px-8 py-4 sun-gradient text-white font-bold rounded-2xl shadow-lg shadow-brand-500/30 hover:opacity-95 transition-all">Confirmer mon espace de travail</button>
+            </div>
+        </div>
+
+        <!-- TAB 6: "CAPSULES DE SOLEIL" (URGENCE ANNULATION) -->
+        <div id="tab-capsule" class="tab-content hidden space-y-6">
+            <!-- Alert Simulation Banner -->
+            <div class="bg-amber-500 text-white p-6 rounded-3xl shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-2xl">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-lg">Simulation d'incident majeur / Annulation > 2h</h3>
+                        <p class="text-xs text-white/90">Votre train TGV 6142 est annoncé avec 2h15 de retard / suppression. Accédez immédiatement à votre compensation FlexWay.</p>
+                    </div>
+                </div>
+                <button onclick="triggerCapsuleEmergency()" class="px-6 py-3 bg-white text-amber-700 font-bold rounded-xl text-sm shadow hover:bg-amber-50 transition-all whitespace-nowrap">Activer mon bon d'urgence</button>
+            </div>
+
+            <div class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="w-12 h-12 rounded-2xl sun-gradient text-white flex items-center justify-center text-2xl font-bold">
+                        <i class="fa-solid fa-sun"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold">Capsules de Soleil FlexWay</h2>
+                        <p class="text-xs text-slate-500">Espaces privatifs de repos & luminothérapie en gare</p>
+                    </div>
+                </div>
+
+                <p class="text-sm text-slate-600 dark:text-slate-300 mb-6">En cas d'annulation ou de retard prolongé de votre train, transformez votre attente en moment ressourçant. Nos capsules de soleil intègrent un simulateur d'aurore/lumière naturelle, un fauteuil massant ergonomique, une isolation phonique totale, des boissons chaudes offertes et un port de recharge ultra-rapide.</p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+                    <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                        <i class="fa-solid fa-lightbulb text-amber-500 text-2xl mb-3"></i>
+                        <h4 class="font-bold text-sm mb-1">Luminothérapie Active</h4>
+                        <p class="text-xs text-slate-500">Lumière à spectre solaire pour booster l'énergie et éliminer le stress du retard.</p>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                        <i class="fa-solid fa-couch text-brand-500 text-2xl mb-3"></i>
+                        <h4 class="font-bold text-sm mb-1">Fauteuil Zéro-Gravité</h4>
+                        <p class="text-xs text-slate-500">Détente musculaire complète avec massages lombaires intégrés.</p>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                        <i class="fa-solid fa-wifi text-blue-500 text-2xl mb-3"></i>
+                        <h4 class="font-bold text-sm mb-1">Confort & Sérénité</h4>
+                        <p class="text-xs text-slate-500">Isolation phonique 95%, air purifié et bouteille d'eau vitaminée offerte.</p>
+                    </div>
+                </div>
+
+                <div id="capsuleActionBox" class="p-6 rounded-2xl bg-brand-50 dark:bg-brand-900/30 border border-brand-200 dark:border-brand-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div>
+                        <h4 class="font-bold text-base text-brand-700 dark:text-brand-300">Disponibilité immédiate en Gare de Lyon</h4>
+                        <p class="text-xs text-slate-500">3 capsules libres sur 12 • Accès gratuit via votre billet TGV perturbé.</p>
+                    </div>
+                    <button onclick="bookCapsule()" class="px-8 py-3 sun-gradient text-white font-bold rounded-xl text-sm shadow-lg shadow-brand-500/30 hover:opacity-95 transition-all">Réserver ma capsule (Code QR instantané)</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="modalOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div id="modalBox" class="bg-white dark:bg-slate-800 rounded-3xl max-w-md w-full p-6 text-center shadow-2xl space-y-4">
+            <div id="modalIcon" class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mx-auto">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h3 id="modalTitle" class="text-xl font-bold">Réservation Confirmée !</h3>
+            <p id="modalText" class="text-sm text-slate-500 dark:text-slate-400">Votre prestation a bien été enregistrée. Retrouvez tous les détails dans votre application FlexWay.</p>
+            <button onclick="closeModal()" class="w-full py-3 sun-gradient text-white font-bold rounded-xl shadow">Compris</button>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-brand-500', 'bg-brand-50', 'dark:bg-brand-900/30');
+            });
+            const activeBtn = document.querySelector(`[data-target="${tabId}"]`);
+            if(activeBtn) {
+                activeBtn.classList.add('text-brand-500', 'bg-brand-50', 'dark:bg-brand-900/30');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            const icon = document.getElementById('themeIcon');
+            if(html.classList.contains('dark')) {
+                icon.className = 'fa-solid fa-sun';
+            } else {
+                icon.className = 'fa-solid fa-moon';
+            }
+        }
+
+        function calculateTransport() {
+            const results = document.getElementById('transportResults');
+            results.classList.remove('hidden');
+            results.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function searchTrains() {
+            const results = document.getElementById('trainResults');
+            results.classList.remove('hidden');
+            results.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function bookTransport(mode, price) {
+            showModal("Trajet vers la Gare réservé !", `Votre ${mode} (${price}) a été commandé. Votre chauffeur/navette est en route.`);
+        }
+
+        function bookTrain(trainName, time, price) {
+            showModal("Billet de Train Réservé !", `Votre voyage sur le ${trainName} à ${time} (${price}) est validé. Votre e-billet est disponible.`);
+        }
+
+        function bookPMR() {
+            showModal("Accompagnement PMR Confirmé !", "Un agent FlexWay vous attendra personnellement dès votre arrivée en gare.");
+        }
+
+        function bookWorkspace() {
+            showModal("Espace de Travail Réservé !", "Votre place connectée à bord a été enregistrée avec succès.");
+        }
+
+        function triggerCapsuleEmergency() {
+            showModal("Bon d'Urgence Activé !", "Suite à la perturbation de votre train, votre bon pour une Capsule de Soleil gratuite a été émis. Rendez-vous espace FlexWay Gare de Lyon.");
+        }
+
+        function bookCapsule() {
+            showModal("Capsule de Soleil Réservée !", "Voici votre code d'accès numérique #CS-8924. La capsule 04 vous est réservée pour 2h.");
+        }
+
+        function showModal(title, text) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalText').innerText = text;
+            document.getElementById('modalOverlay').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
